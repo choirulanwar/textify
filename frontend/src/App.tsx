@@ -1,28 +1,45 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
-import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import { ErrorBoundary } from '@/components/error-boundary';
+import { DashboardLayout } from '@/components/layouts/dashboard-layout';
+import { DashboardPage } from '@/pages/dashboard/page';
+import { KeywordResearchPage } from '@/pages/keyword-research/page';
+import {
+	Route,
+	RouterProvider,
+	createBrowserRouter,
+	createRoutesFromElements
+} from 'react-router-dom';
+import { Toaster } from 'sonner';
+import { ContentEditorPage } from './pages/content-editor/page';
+import { ProjectsPage } from './pages/projects/page';
+import { SettingsPage } from './pages/settings/page';
 
-function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+const router = createBrowserRouter(
+	createRoutesFromElements(
+		<Route
+			path='/'
+			element={<DashboardLayout />}
+			errorElement={<ErrorBoundary />}
+		>
+			<Route path='dashboard' index element={<DashboardPage />} />
+			<Route path='projects' element={<ProjectsPage />}>
+				<Route path=':projectId' element={<ProjectsPage />} />
+			</Route>
+			<Route path='content-editor' element={<ContentEditorPage />}>
+				<Route path=':contentId' element={<ContentEditorPage />} />
+			</Route>
+			<Route path='keyword-research' element={<KeywordResearchPage />}>
+				<Route path=':researchId' element={<KeywordResearchPage />} />
+			</Route>
+			<Route path='settings' element={<SettingsPage />} />
+		</Route>
+	)
+);
 
-    function greet() {
-        Greet(name).then(updateResultText);
-    }
-
-    return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
-        </div>
-    )
+export default function App() {
+	return (
+		<>
+			<Toaster />
+			<RouterProvider router={router} />
+		</>
+	);
 }
-
-export default App
