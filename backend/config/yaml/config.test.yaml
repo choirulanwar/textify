@@ -1,0 +1,25 @@
+app:
+  mode: 'debug'
+  defaultPageSize: 20
+  maxPageSize: 500
+  appName: 'textify'
+  version: 'v0.0.1'
+  description: 'An AI writing assistant tool'
+  versionNewMsg: 'You are already on the latest version!'
+  versionOldMsg: 'Latest version: %s, Would you like to update now?'
+  btnConfirmText: 'Confirm'
+  btnCancelText: 'Cancel'
+  width: 1024
+  height: 768
+  minWidth: 1024
+  minHeight: 768
+  upgradeUrl: 'https://github.com/choirulanwar/textify/releases/download/'
+  homeUrl: 'https://textify.choirulanwar.com'
+  dbName: 'textify.db'
+log:
+  debug: true
+  fileName: 'textify'
+  dirPath: 'runtime/logs'
+github:
+  owner: 'choirulanwar'
+  repo: 'textify'

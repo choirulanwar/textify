@@ -38,11 +38,14 @@ export function Sidebar() {
 	return (
 		<div className='flex pt-4 flex-col h-full bg-secondary justify-between'>
 			<div className='flex-1 space-y-4'>
-				<Link to='/dashboard' className='flex items-center pl-4'>
+				{/* <Link
+					to='/dashboard'
+					className='flex items-center pl-4 pt-6'
+				>
 					<h1 className={cn('text-lg font-bold text-center')}>Textify</h1>
-				</Link>
+				</Link> */}
 
-				<div className='space-y-1'>
+				<div className='space-y-1 pt-5'>
 					{routes.map(route => (
 						<Link
 							key={route.href}
