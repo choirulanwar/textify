@@ -1,5 +1,5 @@
-import { GetGeneralInfo } from '@/../wailsjs/go/Setting/Service';
 import { models } from '@/../wailsjs/go/models';
+import { GetGeneralInfo } from '@/../wailsjs/go/setting/Service';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SettingForm } from '@/components/forms/Setting';
 import {

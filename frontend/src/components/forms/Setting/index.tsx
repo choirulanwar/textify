@@ -1,14 +1,14 @@
-import { SetGeneralData } from '@/../wailsjs/go/Setting/Service';
 import { models } from '@/../wailsjs/go/models';
+import { SetGeneralData } from '@/../wailsjs/go/setting/Service';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
