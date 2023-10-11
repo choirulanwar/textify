@@ -11,22 +11,25 @@ import { DataTableFacetedFilter } from '@/components/data-table/data-table-facet
 import { DataTableViewOptions } from '@/components/data-table/data-table-view-options';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ReactNode } from 'react';
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
+	customToolbar?: ReactNode;
 	filterableColumns?: DataTableFilterableColumn<TData>[];
 	searchableColumns?: DataTableSearchableColumn<TData>[];
 }
 
 export function DataTableToolbar<TData>({
 	table,
+	customToolbar,
 	filterableColumns = [],
 	searchableColumns = []
 }: DataTableToolbarProps<TData>) {
 	const isFiltered = table.getState().columnFilters.length > 0;
 
 	return (
-		<div className='flex items-center justify-between p-1'>
+		<div className='flex items-center justify-between p-1 space-x-2'>
 			<div className='flex flex-1 items-center space-x-2'>
 				{searchableColumns.length > 0 &&
 					searchableColumns.map(
@@ -73,6 +76,7 @@ export function DataTableToolbar<TData>({
 				)}
 			</div>
 			<DataTableViewOptions table={table} />
+			{customToolbar}
 		</div>
 	);
 }

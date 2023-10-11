@@ -38,6 +38,7 @@ interface DataTableProps<TData, TValue> {
 	pageCount: number;
 	filterableColumns?: DataTableFilterableColumn<TData>[];
 	searchableColumns?: DataTableSearchableColumn<TData>[];
+	toolbar?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -45,7 +46,8 @@ export function DataTable<TData, TValue>({
 	data,
 	pageCount,
 	filterableColumns = [],
-	searchableColumns = []
+	searchableColumns = [],
+	toolbar
 }: DataTableProps<TData, TValue>) {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -53,7 +55,7 @@ export function DataTable<TData, TValue>({
 
 	// Search params
 	const page = searchParams?.get('page') ?? '1';
-	const perPage = searchParams?.get('perPage') ?? '10';
+	const perPage = searchParams?.get('perPage') ?? '100';
 	const sort = searchParams?.get('sort');
 	const [column, order] = sort?.split('.') ?? [];
 
@@ -245,6 +247,7 @@ export function DataTable<TData, TValue>({
 		<div className='w-full space-y-4 overflow-auto'>
 			<DataTableToolbar
 				table={table}
+				customToolbar={toolbar}
 				filterableColumns={filterableColumns}
 				searchableColumns={searchableColumns}
 			/>

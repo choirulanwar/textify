@@ -1,7 +1,8 @@
 import { ErrorBoundary } from '@/components/error-boundary';
 import { DashboardLayout } from '@/components/layouts/dashboard-layout';
 import { DashboardPage } from '@/pages/dashboard/page';
-import { KeywordResearchPage } from '@/pages/keyword-research/page';
+import { KeywordTrendExplorerPage } from '@/pages/keyword-trend-explorer/[id]/page';
+import { KeywordTrendExplorersPage } from '@/pages/keyword-trend-explorer/page';
 import {
 	Route,
 	RouterProvider,
@@ -10,6 +11,7 @@ import {
 } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { ContentEditorPage } from './pages/content-editor/page';
+import { DomainFinderPage } from './pages/domain-finder/page';
 import { ProjectsPage } from './pages/projects/page';
 import { SettingsPage } from './pages/settings/page';
 
@@ -21,15 +23,23 @@ const router = createBrowserRouter(
 			errorElement={<ErrorBoundary />}
 		>
 			<Route path='dashboard' index element={<DashboardPage />} />
-			<Route path='projects' element={<ProjectsPage />}>
-				<Route path=':projectId' element={<ProjectsPage />} />
+			<Route path='project' element={<ProjectsPage />}>
+				<Route path=':id' element={<ProjectsPage />} />
 			</Route>
 			<Route path='content-editor' element={<ContentEditorPage />}>
-				<Route path=':contentId' element={<ContentEditorPage />} />
+				<Route path=':id' element={<ContentEditorPage />} />
 			</Route>
-			<Route path='keyword-research' element={<KeywordResearchPage />}>
-				<Route path=':researchId' element={<KeywordResearchPage />} />
+			<Route path='domain-finder' element={<DomainFinderPage />}>
+				<Route path=':id' element={<DomainFinderPage />} />
 			</Route>
+			<Route
+				path='keyword-trend-explorer'
+				element={<KeywordTrendExplorersPage />}
+			/>
+			<Route
+				path='keyword-trend-explorer/:id'
+				element={<KeywordTrendExplorerPage />}
+			/>
 			<Route path='settings' element={<SettingsPage />} />
 		</Route>
 	)

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/choirulanwar/textify/backend/config"
-	"github.com/choirulanwar/textify/backend/model"
+	"github.com/choirulanwar/textify/backend/models"
 	"github.com/choirulanwar/textify/backend/pkg/helper"
 	"github.com/choirulanwar/textify/backend/pkg/log"
 	"github.com/sirupsen/logrus"
@@ -70,9 +70,17 @@ func GetIsAutoMigrate() bool {
 
 func autoMigrate(db *gorm.DB) {
 	db.Migrator().CreateTable(
-		&model.Setting{},
+		&models.Setting{},
+		&models.KeywordTrendExplorer{},
+		&models.Keyword{},
+		// &models.SERPResult{},
+		// &models.Link{},
+		// &models.Trend{},
+		// &models.RelatedQuestion{},
 	)
 
 	MockSetting(db)
+	MockKeyword(db)
+	MockTrend(db)
 	MockTagList(db)
 }

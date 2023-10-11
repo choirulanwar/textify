@@ -1,23 +1,25 @@
 package sqlite
 
 import (
-	"time"
-
-	"github.com/choirulanwar/textify/backend/model"
+	"github.com/choirulanwar/textify/backend/models"
 	"gorm.io/gorm"
 )
 
 func MockSetting(db *gorm.DB) {
-	db.Create(&model.Setting{
+	db.Create(&models.Setting{
 		BrowserPath:      "",
 		BrowserVisible:   false,
 		SessionGoogle:    "",
 		SessionPinterest: "",
-		BaseModel: model.BaseModel{
-			CreatedAt: uint64(time.Now().Unix()),
-			UpdatedAt: uint64(time.Now().Unix()),
-		},
 	})
+}
+
+func MockKeyword(db *gorm.DB) {
+
+}
+
+func MockTrend(db *gorm.DB) {
+
 }
 
 func MockTagList(db *gorm.DB) {

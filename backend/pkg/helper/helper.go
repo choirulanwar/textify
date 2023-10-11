@@ -5,9 +5,11 @@ import (
 	"crypto/md5"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math"
 	"mime/multipart"
 	"os"
 	"os/exec"
@@ -17,9 +19,13 @@ import (
 	"time"
 
 	"github.com/bwmarrin/snowflake"
+	"github.com/choirulanwar/textify/backend/models"
+	"github.com/choirulanwar/textify/backend/pkg/pagination"
+
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/hashicorp/go-uuid"
+	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
 
@@ -60,10 +66,9 @@ func GenerateUuid(size int) string {
 func GeneratePasswordHash(password string, salt string) string {
 	md5 := md5.New()
 	io.WriteString(md5, password)
-	str := fmt.Sprintf("%x", md5.Sum(nil))
 	s := sha256.New()
 	io.WriteString(s, password+salt)
-	str = fmt.Sprintf("%x", s.Sum(nil))
+	str := fmt.Sprintf("%x", s.Sum(nil))
 	return str
 }
 
@@ -218,4 +223,59 @@ func GetStructColumnName(s interface{}, _type int) ([]string, error) {
 		fields = append(fields, field)
 	}
 	return fields, nil
+}
+
+func GetSettingInfo(db *gorm.DB) (*models.Setting, error) {
+	var settingInfo models.Setting
+	err := db.Where("id = ?", 1).First(&settingInfo).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("setting not found")
+		}
+		return nil, errors.New("internal server error")
+	}
+	return &settingInfo, nil
+}
+
+func ReverseArray(arr []int) []int {
+	reversed := make([]int, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		reversed[len(arr)-1-i] = arr[i]
+	}
+	return reversed
+}
+
+func ReverseSlice(slice interface{}) {
+	value := reflect.ValueOf(slice)
+
+	for i, j := 0, value.Len()-1; i < j; i, j = i+1, j-1 {
+		temp := reflect.ValueOf(value.Index(i).Interface())
+		value.Index(i).Set(value.Index(j))
+		value.Index(j).Set(temp)
+	}
+}
+
+type FilterFunc func(db *gorm.DB) *gorm.DB
+
+func Paginate(value interface{}, pagination *pagination.Pagination, db *gorm.DB, filters ...FilterFunc) func(db *gorm.DB) *gorm.DB {
+	var totalRows int64
+	query := db.Model(value)
+
+	for _, filter := range filters {
+		query = filter(query)
+	}
+
+	query.Count(&totalRows)
+
+	pagination.TotalRows = totalRows
+	totalPages := int(math.Ceil(float64(totalRows) / float64(pagination.Limit)))
+	pagination.TotalPages = totalPages
+
+	return func(db *gorm.DB) *gorm.DB {
+		for _, filter := range filters {
+			db = filter(db)
+		}
+
+		return db.Offset(pagination.GetOffset()).Limit(pagination.GetLimit()).Order(pagination.GetSort())
+	}
 }

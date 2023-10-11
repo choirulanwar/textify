@@ -22,7 +22,7 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({
 	table,
-	pageSizeOptions = [10, 20, 30, 40, 50]
+	pageSizeOptions = [10, 20, 30, 40, 50, 100]
 }: DataTablePaginationProps<TData>) {
 	return (
 		<div className='flex w-full flex-col items-center justify-between gap-4 overflow-auto px-2 py-1 sm:flex-row sm:gap-8'>
@@ -32,7 +32,7 @@ export function DataTablePagination<TData>({
 			</div>
 			<div className='flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8'>
 				<div className='flex items-center space-x-2'>
-					<p className='whitespace-nowrap text-sm font-medium'>Rows per page</p>
+					<p className='whitespace-nowrap text-sm'>Rows per page</p>
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
 						onValueChange={value => {
@@ -51,7 +51,7 @@ export function DataTablePagination<TData>({
 						</SelectContent>
 					</Select>
 				</div>
-				<div className='flex w-[100px] items-center justify-center text-sm font-medium'>
+				<div className='flex w-[100px] items-center justify-center text-sm'>
 					Page {table.getState().pagination.pageIndex + 1} of{' '}
 					{table.getPageCount()}
 				</div>

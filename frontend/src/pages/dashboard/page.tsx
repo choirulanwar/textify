@@ -10,10 +10,6 @@ export function DashboardPage() {
 						{
 							title: 'Textify',
 							href: '/dashboard'
-						},
-						{
-							title: 'Dashboard',
-							href: '/dashboard'
 						}
 					]}
 				/>

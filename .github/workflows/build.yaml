@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        build:
+          [
+            { name: Textify, platform: linux/amd64, os: ubuntu-latest },
+            { name: Textify, platform: windows/amd64, os: windows-latest },
+            { name: Textify, platform: darwin/universal, os: macos-latest }
+          ]
+    runs-on: ${{ matrix.build.os }}
+    env:
+      ENV: prod
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - uses: dAppServer/wails-build-action@v2.2
+        with:
+          build-name: ${{ matrix.build.name }}
+          build-platform: ${{ matrix.build.platform }}

@@ -8,8 +8,8 @@ export function ErrorBoundary() {
 	}
 
 	return (
-		<section>
-			<h1>Error Boundary</h1>
+		<section className='flex justify-center items-center w-full h-screen'>
+			<h1>Error</h1>
 
 			<small>{error?.message}</small>
 		</section>

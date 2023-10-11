@@ -3,6 +3,7 @@ package http
 import (
 	"bytes"
 	"fmt"
+
 	"io"
 	net_http "net/http"
 )
@@ -29,6 +30,10 @@ func request(requestType, url, token string, cookies string, payload []byte) ([]
 	response, err := client.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("request failed: %w", err)
+	}
+
+	if response.StatusCode != net_http.StatusOK {
+		return nil, fmt.Errorf("request failed with status: %s", response.Status)
 	}
 
 	body, _ := io.ReadAll(response.Body)

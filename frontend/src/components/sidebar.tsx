@@ -4,6 +4,7 @@ import {
 	BarChartIcon,
 	DashboardIcon,
 	GearIcon,
+	GlobeIcon,
 	Pencil1Icon
 } from '@radix-ui/react-icons';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,7 +19,7 @@ const routes = [
 	{
 		label: 'Projects',
 		icon: ArchiveIcon,
-		href: '/projects'
+		href: '/project'
 	},
 	{
 		label: 'Content Editor',
@@ -26,9 +27,14 @@ const routes = [
 		href: '/content-editor'
 	},
 	{
-		label: 'Keyword Research',
+		label: 'Domain Finder',
+		icon: GlobeIcon,
+		href: '/domain-finder'
+	},
+	{
+		label: 'Keyword Trend Explorer',
 		icon: BarChartIcon,
-		href: '/keyword-research'
+		href: '/keyword-trend-explorer'
 	}
 ];
 
@@ -52,7 +58,7 @@ export function Sidebar() {
 							to={route.href}
 							className={cn(
 								'text-sm group flex py-2 w-full justify-start cursor-pointer hover:text-primary hover:bg-muted transition',
-								pathname === route.href
+								pathname.startsWith(route.href)
 									? 'text-primary bg-muted font-semibold'
 									: 'text-foreground font-medium'
 							)}

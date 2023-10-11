@@ -23,3 +23,36 @@ export function catchError(err: unknown) {
 		return toast('Something went wrong, please try again later.');
 	}
 }
+
+export type TrendsData = {
+	time: number;
+	value: number;
+};
+
+export function convertToMonthlyData(trendsData: TrendsData[]): TrendsData[] {
+	const monthlyData: TrendsData[] = [];
+	const months: { [month: string]: number[] } = {};
+
+	for (const data of trendsData) {
+		const date = new Date(data.time * 1000);
+		const month = `${date.getMonth() + 1}-${date.getFullYear()}`;
+
+		if (!months[month]) {
+			months[month] = [];
+		}
+		months[month].push(data.value);
+	}
+
+	for (const month in months) {
+		const values = months[month];
+		const average =
+			values.reduce((sum, value) => sum + value, 0) / values.length;
+
+		const [m, y] = month.split('-');
+		const unixTime = new Date(`${y}-${m}-01`).getTime() / 1000;
+
+		monthlyData.push({ time: unixTime, value: average });
+	}
+
+	return monthlyData;
+}
