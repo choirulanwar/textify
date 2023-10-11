@@ -4,6 +4,8 @@
 
 Textify is an AI-powered writing assistant application designed to help improve your productivity and the quality of your writing.
 
+![Screenshot](screenshot.png)
+
 ## Tech Stack
 
 - Backend: [Golang](https://go.dev/)
